@@ -1,0 +1,62 @@
+
+class Solution {
+    public:
+    int maxSubArray(vector<int>& nums) {
+        if ( nums.size() == 0) 
+            return 0;
+        return maxSubArray(nums, 0, nums.size()-1);
+    }
+    // int max_chk(int a, int b){
+    //    if(a>b)
+    //        return a;
+    //     else 
+    //         return b;
+    // }
+    private:
+    int maxSubArray(vector<int>& nums, int l, int r)
+    {
+        if(l==r){
+            return nums[l]; //base case when there is only 1 element
+        }
+        if (l > r) 
+            return INT_MIN;
+        if (l == r) 
+            return nums[l];
+        
+        int half= (r+l)/2; // find out the mid to calculate only left and only rigth amd gradually crosssum
+      
+        int leftX= maxSubArray(nums, l, half);//recursion keep dividing to single element
+        int rightX= maxSubArray(nums, half+1, r);//recursion keep dividing to single element
+       
+        //find out the crosssum
+        int sum=0;
+        int ls = INT_MIN;  //built in function, always set the minium value
+        for(int i=half; i>=0; i--)// starting from the mid and go to the left most value and find out the maxium
+        {
+            sum+=nums[i];
+            
+            ls = max(ls,sum);
+            // if(sum>ls)
+            //     ls=sum;// so in this case we record only the maximum value.
+        }
+        sum=0;
+        int rs = INT_MIN; //built in function, always set the minium value
+        for(int i=half+1; i<=r; i++) // start after the mid and go till the last element, and find out whats the max value u can get
+            {
+                sum+=nums[i];
+            rs = max(rs,sum);
+                // if(sum>rs)
+                //     rs=sum;
+            }
+        // cout<<"\nleft: " <<ls;
+        // cout<<"\nright " <<rs <<endl <<"Sum: " <<sum;
+        int ans = max(leftX , rightX);
+        return max(ans, ls + rs );// so we use built-in math function to find out the maximum value between all the left values and right values including the mid
+    }
+
+    
+
+
+
+
+    };
