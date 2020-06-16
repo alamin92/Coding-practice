@@ -1,0 +1,41 @@
+class Solution {
+public:
+    int majorityElement(vector<int>& nums) {
+        return majorityrec(nums, 0, nums.size()-1);
+        
+    }
+private:
+    int majorityrec(vector<int> & nums, int low, int high){
+        if(low == high){
+            return nums[low]; // base case when there is only 1 element left in the array. 
+        }
+        int half=(high-low)/2 + low;// recursion to the left amd right untill there is only single element left
+        int l = majorityrec(nums, low, half);
+        int r = majorityrec(nums, half+1, high);
+        
+        if(l==r){
+            return l;
+        }
+        
+        int leftX= countX(nums, l, low, high);
+        int rightX= countX(nums, r, low, high);
+            
+            // if(leftX==rightX){
+            //     return leftX;
+            
+            return leftX>rightX ? l:r;
+                
+            }
+    private:
+    int countX(vector<int>& nums, int num, int low, int high){
+        int count=0;
+        for(int i=low; i<=high; i++){
+            if(nums[i]==num)
+                count++;
+        }
+        return count;
+    }
+    
+        
+    
+};
