@@ -1,0 +1,50 @@
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* removeNthFromEnd(ListNode* head, int n) {
+       // ListNode* another = new ListNode();
+        // another = head;
+         
+        //if(head == NULL || head->next == NULL)
+        //return NULL;
+        
+        if(head == NULL || head->next == NULL || n == 0){
+            return NULL;
+        }
+        ListNode* f = head;  // get two nodes, use one of them till the n value then use the second one start after the first one ends. then staart both of them again and finish untill first one reaches the end. when fiest reaches the end slow will be left off L-n position and then rejoin the slow w=and skip that node. 
+        ListNode* s = head;
+        
+      // for(int i=0; i<=n; i++){ // start the first pointer to reach till the desired n
+      //       f = f->next;
+        
+        for(int i=0; i<n; i++){ // start the first pointer to reach till the desired n
+            f = f->next;
+            
+        }
+        
+        while(f!=NULL && f->next!=NULL){ // now start both so that when first reaches end second will be stop the desired n counted from the back. like n=3, length 7. so slow will stop at 7-3= 4th variable, and we will remove the 3rd one counted from the back. and 5th one if counted from the front, 1-7. 
+            // while(fast!=NULL){
+            
+            f=f->next;
+            s = s->next;
+        }
+        
+        if(f==NULL){
+            head=head->next;// if head needs to be removed then  chnaged the head to head->next. 
+            return head;
+        }
+        
+        s->next= s->next->next;// skip that node and return head. 
+        return head;
+        
+    }
+};
