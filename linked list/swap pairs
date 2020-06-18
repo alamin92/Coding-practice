@@ -1,0 +1,74 @@
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* swapPairs(ListNode* head) { 
+        if(head==NULL || head->next == NULL )
+             return head;
+        
+    
+         // create a temporary variable to hold the 3rd variable.
+        ListNode* temp;
+        ListNode* i= head; // i is pointing to head. 
+        ListNode* pre = NULL; // pre is pointing to previus and we keep changing to the previous of the head throught loop to keep connection of the previus of head. 
+        ListNode* sec = head->next; 
+        // sec is created to hold the position of the second variable, so that it doesn't get disconnected.
+         
+        
+    while(sec->next!=NULL && i->next!= NULL ){ // while loop is keep looping untill there is no 4th variable.
+       // if(sec->next==NULL)
+       //     return head;
+       //  else
+            temp = sec->next;// temp is pointing to the 3rd varibale.so that we can chnage the direction from the firdt ne to the 3rd one without getting discnnect.
+        sec->next = i;// now point the  sec-next  to the first variable. 3rd variable is connected because we kept it inside the temp
+        i->next = temp; // now pointer i which is the head is changed to point temp which is the 3rd variable means it has become the 2nd variable. 
+        if(pre ==NULL){ // pre==null it means when it is the first variable. sowe change sec which is now the first variable set equal to pre 
+           head=sec;
+        }
+        
+        else{   // other than that we set pre->next to the current variable and pre is the previous one. 
+            pre->next=sec;
+        }
+        
+        pre=i;   // setting pre to the current head. so that it has a connectin to the head. 
+         i=i->next;
+        // now we set current to the current next which the 3rd element. 
+        
+        sec=i->next; // sec to the i->next which is the fourth element. 
+         if(sec==NULL){  // when there is odd number of element or ther is only 3 element 
+             return head;
+}
+        
+    }
+    
+        // ** got idea from the slution book
+        
+        // now we need to create another condition for the last two variable or there is only 2 or less element.  
+        if(i!=NULL && sec!=NULL ){
+            //now we need to create something for wehn there is only 2 element, we need to revert the second one to the head and 1st one the tail. 
+            if(pre==NULL){// only 2 element means did not enter to the while loop
+            sec->next = i; // set 2 varivale points the firt one. 
+            i->next=NULL; // then change 1st pointer to the null.
+            head=sec; // and set head to the second variable.
+            }
+        else{   // over here for the last two variable. 
+            sec->next=i; // set last varibale points to the previus one. 
+            pre->next= sec; // then previous to that second variribale which we just changed th epointer  sec->next 
+        i->next=NULL; // and finally set the before last variable points to NULL and end here. 
+        }
+        
+         }
+        return head;
+    }
+    
+       
+
+};
