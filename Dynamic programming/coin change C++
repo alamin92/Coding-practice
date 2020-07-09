@@ -1,0 +1,59 @@
+class Solution {
+public:
+    int coinChange(vector<int>& coins, int amount) {
+        sort(coins.begin(), coins.end()); // sort the coins for better run time. 
+        
+        /*create a new vector/array to compare or to check how many coins is needed to fill the total amount, 
+        example here is amount 11. and coins we have [1,2,5]. so fill the new arry up to 12 to keep off the ending point. 
+        then go bottom up approach, means, we check from $1 up to $11 to check how many coins is needed for each amount. 
+        In this process all the previous are already calculated, so let;s say we are calculating coins for $6, we go back the prvious one on 
+        how many are needed for $5, also check the current amount which is $6 - all the coins one by one + 1 (for the current one) and 
+        find the minimum amount. you see that coins are 1,2,5. so when theres is $1 , $2 or $5 it should return 1, since it needs only 1 coin. 
+        lets say it has $13, we see thats it needs 4 coins toatl, 5+5+2+1+1. so return 4. 
+            */
+        
+        
+    /*1. ways to fill up vector 
+         int max = amount +1;
+        vector<int> count(amount+1, max);
+        */
+        
+     
+    /*2. ways to fill up vector
+        vector<int> count(amount+1);
+        fill(count.begin(), count.end(), amount+1);
+        */
+        
+    /*3. use arrays to fill up
+        int count = new int [amount+1];
+        for( int i=1; i<=amount; i++){
+        count[i]= amount+1;
+        }
+        */
+        
+        
+        /* 4. ways to fill up vector */
+        vector<int> count (amount+1, amount+1);
+        
+        
+       // vector<int> count[] = new int  [amount +1];  wrong
+
+            
+            count[0] = 0;
+        
+        for(int i=0; i<=amount; i++){ // bottom up approach to go lowest amoubnt to highest amount. 
+            for(int j=0; j<coins.size(); j++){ // check all the coins for the amount you checking on loop 1
+                if(coins[j]<=i) // to cehck if the coins is exceed the amount or not. 
+                {
+                    count[i]= min(count[i], 1+ count[i- coins[j]]); // This is the main part of the dynamic programming algorithm. 
+                    we set up like this to find the minimum couns for any amount. MY Algo didn't work, so I used it from the leetcode solution. 
+                    
+            }
+            else{
+                break;
+            }
+            }
+        }
+        return count[amount]> amount? -1: count[amount];
+    }
+};
