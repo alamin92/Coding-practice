@@ -1,0 +1,64 @@
+class Solution {
+public:
+    int canCompleteCircuit(vector<int>& gas, vector<int>& cost) {
+        int x= 0; //begin point
+        int y= gas.size(); // end point
+        int next = 0; 
+        /* this is to calculate next variable when cost is too high and becomes negative so skip                              that one and go top next  */
+        int sum = 0;  
+        /* this is to calculate and save the result from the beginning to the end so we dont have to                          rewind it again and again, so at the end when it is >= 0 menas it is possible to travel                            from start to edn pont */
+        int start = 0; 
+        /* this is the start point , we keep changing it is it doesn't stay positive means not                            having enough fuel to travel to the next */
+        
+        for( int i= x; i<y; i++){ // as long as we don't cross over
+             sum = sum+ gas[i] - cost[i]; // its calculating from beginning to the end
+             next = next + gas[i] - cost[i]; // its the calculaton the index 
+            // was mistak e u put int again//
+            if(next<0){
+                /*when negative means wrong choice so we change the start point  
+                to the next one and set next to 0  */
+                
+                start = i+1;// we keep the record for start variable from next one 
+                next = 0; 
+                // set change to 0 so that we can start counting from the next variable without the previous one 
+            }
+//                 y--;  // keep going backwords
+//                 next = next+ gas[x];
+//                 next = next- cost[x];
+//                 //sum = 0;
+//             }
+//             else{
+//                 x++; // otherwise chose the next destinations
+//                 next = next- cost[x];
+//                 next = 0;
+//             
+      
+                
+                return (sum >= 0)? start: -1;
+        
+    }
+};
+    
+          }
+        /* another good algo from this website [https://www.programmersought.com/article/60751037642/] */
+        /*class Solution {
+public:
+    int canCompleteCircuit(vector<int> &gas, vector<int> &cost) {
+        int start = gas.size()-1;
+        int end = 0;
+        int sum = gas[start] - cost[start];
+        while(start > end){
+            if(sum > 0){
+                sum += gas[end];
+                sum -= cost[end];
+                end++;
+            }else{
+                start--;
+                sum += gas[start];
+                sum -= cost[start];
+            }
+        }
+        return (sum >= 0)? start : -1;
+    }
+};
+*/
