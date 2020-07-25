@@ -1,0 +1,85 @@
+class Solution {
+public:
+    bool canFinish(int numCourses, vector<vector<int>>& prerequisites) {
+        vector<vector<int>> map(numCourses);
+        /* here vector is created a map so that I can find all the adjacecy nodes of each one. Then use the main node as a key, so in future when we call that node all the adjacecy will come through. like [2,1] is given, 1 is the prerequisite and 2 is the key. 
+        */
+        int n = prerequisites.size();
+        vector<int>preAmount(numCourses, 0);
+        /* here we created another vector which will hold the number of prerequisite/prerequisites for each course, we set it to 0 initially so that if some have no prerequisite we can use 0 as a default. 
+        */
+        // use for loop to find all the prerequisite and create map. 
+        for(int i=0; i<n; i++){
+            //now this is the tricky part where we are creating the map for prerequisites
+            map[prerequisites[i][1]].push_back(prerequisites[i][0]);
+            /* lets say we have [3,2] so we have to take 2 in order to take 3, so 2 is the prerequisite for 3, and number of prerequisite is 1. it means when we take out 3 we get value 1. If there are more than 1 prerequisite we increment the number from 1 to 2++. it save as this
+            3 -key> 2. value 1
+so we push back 2 for 3. 
+            4 -Key> 3. value 1
+so we psuh back 3 for 4 and so on......
+            for this [6,4] [6,5]
+            6 -key> 4,5. value 2
+so we push back 4 for 6 first, then again 5 for 6. 
+            
+            */
+            preAmount[prerequisites[i][0]]++;
+            /* here we use the preamount for number of prerequisites so that we can use it in the queue to push and pop.  it save as this
+            [0][1][1][1][2] -> number of prerequisites. 
+             2  3  4  5  6  -> all the courses        
+             */
+        }
+        queue<int> q;
+        //now we are all set to use BFS here, we use the queue to go through the neighbours and pop the current and push the adjacent,
+        for(int j =0; j<numCourses; j++){ // *mistake-> use numCourses not pre..
+            if(preAmount[j]==0){
+                q.push(j); //* mistake use push for queue not push_back
+                /* here we just push the 0 prerequisites  course to the queue, in this case on our example we push the number 2 since it has 0 prerequisite. 
+                */
+            }
+        }
+        int count = 0;
+        // set a counter for all the prerequisites to count and check if it matches the numCourses, if it doesnot menas there is cycle and we wont able to reach to the end. 
+        while(!q.empty()){ // *mistake check how to write empty
+            int top = q.front(); // we set first value to the front so that we can pop it out as we know Queue is FIFO. 
+            q.pop();
+            count++;
+            for(auto k: map[top]){
+                /* here we use the for loop to use the key as we go through to all of the values or connective courses.
+                */
+                preAmount[k]--;
+                /* here we reduced the value of the current course as we delete the prerequisites. 
+                [1]  to [0]
+                 3       3  
+ Here we reduced the 1 to 0  becase we deleted or poped the 2 which was the prerequisites for 3. Now there are no prerequisites for 3 so we reduced the size to 0.  
+ 
+ important thing to notice here, when we delete the [4] value of [6] automaticlly reduced down to 1 from 2. becuase [4] was also the prerequisites for [6], so when we delete 5 it will go down to 0.
+ 
+ another important thing is when there is cycle, when we reduced the value for the current it won't be 0 because current is the prerequisite for the next one aslo, such as
+        2->3->4
+            <-   as u see the value for [3] won;t reach to 0. 
+        0. 2  1
+ */
+                if(preAmount[k]==0){
+                    q.push(k);
+/* so if the the current value is 0 we push back to the queue to find the adjacent and pop later on. we do this untill the queue is empty means all the adj has been found
+*/
+                }
+            }
+            
+        }
+        if(count == numCourses){
+            return true;
+        }
+        return false;
+        
+    }
+};
+
+
+/* //(REFERRENCE)// 
+
+[https://github.com/rakeshkumar1019/PlacementHackerBlock/blob/master/207.%20Course%20Schedule]
+
+YouTube Link[https://www.youtube.com/watch?v=wQJRQsZ0570]
+
+*/
