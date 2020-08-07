@@ -1,0 +1,57 @@
+class Solution {
+public:
+    int numIslands(vector<vector<char>>& grid) {
+        /*u need to traverse all the neighbours of the islands. */
+        int height = grid.size();
+        if (height == 0)
+            return 0;
+        /* here we are counting the rows, (how many rows) so that we can count all the colums, becasue it is a 2d matrix, we can use these height and width (rows and columns ) and check all the surrounds if ti is 0 or 1. like this.   ^
+                        |
+                   < -[i][j]- >
+                        |
+                        ~ 
+       */           
+        int width = grid[0].size();
+         //if (width == 0)
+        //     return 0;
+        /* it's the size of a particular row to go from left to all the way to right. 
+        */
+        
+        int count = 0;
+        // two loops for 2d matrix
+        for(int i = 0; i< height; i++){
+            for(int j = 0; j< width; j++){
+                if(grid[i][j] == '1'){
+                    /* since it is a character that's why we put this ''. if it is 1 we go to the neighbours. 
+                    */
+                    count ++; /* start counting for once. */
+                    dfs(grid, i ,j);
+                    /* we are using dfs becasue it works as this. it wil keep going to last node, when it reaches to the dead end, it will reverse back to the first previous available node and so on. 
+                    */
+                }
+            }
+        }
+        return count;
+        
+    }
+    void dfs(vector<vector<char>>& grid, int x, int y){
+        //grid[x][y] = '0'; 
+        /* setting the current one to 0 so that we do not revisit again. */
+        /* now checking all the left, right, top and bottom 
+        */
+        //if (x+1 < grid.size() && grid[x+1][y])
+        if (x<0 || y<0 || x>=grid.size() || y>=grid[0].size() || grid[x][y]== '0')
+            return;
+        /* this conditions are here when we go out of the grid like go below 0 to the left or over to the size.
+        */
+        grid[x][y] = '0';  //* mistake was here used ==
+        dfs(grid, x+1, y);
+        dfs(grid, x-1, y);
+        dfs(grid, x, y-1);
+        dfs(grid, x, y+1);
+        
+    }
+};
+
+
+//#REF. https://www.youtube.com/watch?v=uspsIxavTzA
