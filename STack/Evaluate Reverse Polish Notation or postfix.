@@ -1,0 +1,44 @@
+class Solution {
+public:
+    int evalRPN(vector<string>& tokens) {
+        int x = tokens.size();
+        /* here x is the total size, we need this so that when we go through all the elements it doesn;t go over. 
+        */
+        /* Now we know that we need to use stacks because it is easier to push and pop and calculate those and push back in, we also that it is LIFO order and that is the reason we will use stcak here, so that we can add,sub,mul,or div last two then proceed to the next one.
+        */
+        stack<int> result;
+        /* now we need a loop to evalute all the elements in the stack.
+        */
+        for( int i =0; i<x; i++){
+            /* now we need to set a condition for all the signs so that it can decide which one it needs to do. 
+            */
+            if(tokens[i] == "+" || tokens[i]==  "-" || tokens[i]== "*" || tokens[i]== "/"){
+                int value1 = result.top();
+                result.pop();
+                int value2 = result.top();
+                result.pop();
+                if (tokens[i]== "+"){
+                    result.push(value2+value1);
+                }
+                else if (tokens[i]== "-"){
+                    result.push(value2-value1);  
+                }
+                else if (tokens[i]== "*"){
+                    result.push(value2*value1);
+                }
+                else {
+                    result.push(value2/value1);
+                }
+                /* was *mistake here, value2 shopuld be first then value1, since we are going on a reverse order and stack it LIFO, we need to use value2 before value1, otherwise it won't be logically right for the reverse order. 
+                */
+            }
+            else {
+                /* stoi converts string to integer. we use this here; if there is nothing here or 1 value or or 1 sign we transformed it and push it back to the result to display only that and do not do any calculatiopns. 
+                */
+                result.push(stoi(tokens[i]));
+            }
+        }
+        return result.top();
+        /* now we return the top of the stack which is the all calculated iteams. */
+    }
+};
