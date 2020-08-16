@@ -1,0 +1,33 @@
+class Solution {
+public:
+    vector<vector<string>> groupAnagrams(vector<string>& strs) {
+        /* so the idea is usning has table. we create a hash table then take each word (using loop) till end, then sort the first word/string and use that word as a key to insert the other others similiar to that. when we examine others woods, we sort those too to check if it matches the key, then insert the original words to that key (not the sorted word). so we need one vector and a map. we will use the map to inerst the original words, then we push the elements into the vector using the (second function) because we do not need thee key or to avoid the key. 
+        */
+        vector<vector<string>> FinalVec;
+        /* we use two dimentional vec becasue, we check the key then push the elements relatred to that key, menas we are using two things at a time like two dimentional array, that wh y. */
+        if(strs.size()==0)
+            return FinalVec;
+        /* if theres is nothig or only one then we return empty */
+        map<string, vector<string>> SortingAna;
+        /* this the map. here the parameters; first one is the string, which is gonna be the key and sorted string, and will use that to check the anagram.
+        
+        */
+        string iterate;// to itearate all the string
+        for( int i=0; i<strs.size(); i++){
+            iterate = strs[i];
+            /* set the first string to itearte so that keep the original (strs[i]) intact and sort the (itearte.) 
+            */
+            sort(iterate.begin(), iterate.end());
+            /* now we push the anagram strings to the SortingAna vector using the sorted key (iterate)
+            */
+            SortingAna[iterate].push_back(strs[i]);
+        }
+        for(auto x:SortingAna){
+            /*now we push only the original Anagrams to the FinalVec using the x.second, meanns only the second value and igone key.  
+            */
+            FinalVec.push_back(x.second);
+        }
+        return FinalVec;
+        
+    }
+};
