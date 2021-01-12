@@ -1,0 +1,30 @@
+// you can use includes, for example:
+// #include <algorithm>
+
+// you can write to stdout for debugging purposes, e.g.
+// cout << "this is a debug message" << endl;
+
+int solution(int N) {
+    // write your code in C++14 (g++ 6.2.0)
+   int x = -1; //to check the ones if there is any 0 in between. 
+   int result = 0;
+
+   while (N > 0 ){ // as long as it reaches to the end
+        if((N & 1) == 1) { 
+// bitwise & cheking if it is 1 means when both are 1 
+        x = 0;
+        }
+
+        else if( x != -1){
+            x++;
+            if (result < x){
+                result = x;
+            }
+        }
+
+        N = N >>1;  // cutting digit by digit
+   }
+
+   return result ; 
+
+}
