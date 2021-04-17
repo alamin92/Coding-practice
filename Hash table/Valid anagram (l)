@@ -1,0 +1,35 @@
+/**
+ * @param {string} s
+ * @param {string} t
+ * @return {boolean}
+ */
+var isAnagram = function(s, t) {
+//     before you go, first check if both of the sizes are same or not. if not we can return false directly from here. 
+    if(s.length !== t.length)  
+        return false;
+    
+//     now creat a map then for each letter we count and keep that as a key
+//  such as
+//    "anagram"    a = 1,  n = 1, ; then comes "a" again so we nedd to increment for a
+//                 a = 2, g = 1, r = 1 then "a" again so a = 3
+    
+    let map = new Map();
+    
+    for( let i = 0; i<s.length; i++){
+        if(map[s[i]]){
+            map[s[i]]++
+//             *mistake was here, typed i++ only
+        }
+        else
+            map[s[i]] = 1;
+    }
+//     now we need to check with the second string, whenever we find any match we decrement it. such as   "nagaram"   n is found so n = 0, a = 2, g = 0, a = 1 etc. 
+    for (let i = 0; i<t.length; i++){
+        if(map[t[i]]){
+            map[t[i]]--;
+        }
+        else
+            return false;
+    }
+    return true;
+};
