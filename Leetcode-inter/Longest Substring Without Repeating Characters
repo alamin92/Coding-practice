@@ -1,0 +1,32 @@
+class Solution {
+public:
+    int lengthOfLongestSubstring(string s) {
+//     if it is 0 length then no need to go through the loops    
+        if(s.length() == 0)
+            return 0;
+
+        int maxl = 1; // to calculate the longest substring
+        int back = 0; // This points at the beginning of the String S and eventually will come forward when repeating character is discovered. 
+        int front = 0;  //This will check each chararcter if it is repeated or not
+       
+        
+        unordered_set<char> ch;
+        // This set will put the each strings inside untill repeating character is found
+        
+        while(back < s.length() && front < s.length()){
+            //if the string is not to be found in, it will insert in the set
+            if(ch.find(s[front]) == ch.end()){
+                ch.insert(s[front]);
+                front++;
+            //calculating the longest substring
+                maxl = max(maxl, front - back);
+            }
+            //if it is found then the set will be erased. 
+            else{
+                ch.erase(s[back]);
+                back++;
+            }
+        }
+        return maxl;
+    }
+};
