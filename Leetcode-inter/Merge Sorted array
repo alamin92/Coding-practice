@@ -1,0 +1,19 @@
+class Solution {
+    public void merge(int[] nums1, int m, int[] nums2, int n) {
+        //Create a new array and put all of them into that, then sort the array, and import that to the new one.       
+        int answer[] = new int[m+n];
+        for(int i=0; i<m; i++){
+            answer[i] = nums1[i];
+        }
+
+        for(int j=0; j<n; j++){
+            answer[m+j] = nums2[j];
+        }
+
+        Arrays.sort(answer);
+
+        for(int k=0; k<nums1.length; k++){
+            nums1[k] = answer[k];
+        }
+    }
+}
