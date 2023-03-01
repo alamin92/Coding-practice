@@ -1,0 +1,56 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+
+//  The inorder traversal algorithm follows these steps:
+
+// Traverse the left subtree recursively by calling the inorder traversal function on the  left child of the current node.
+// Visit the current node and output its value.
+// Traverse the right subtree recursively by calling the inorder traversal function on the right child of the current node.
+
+class Solution {
+    public List<Integer> inorderTraversal(TreeNode root) {
+        
+        List<Integer> ans = new ArrayList<>();
+
+        Stack<TreeNode> st = new Stack<>();
+        if(root == null){
+            return ans;
+        }
+        TreeNode cur = root;
+
+        while(cur!= null || !st.isEmpty()){
+            while(cur !=null){
+                st.push(cur);
+                cur = cur.left;
+            }
+
+            cur = st.pop();
+            ans.add(cur.val);
+            cur = cur.right;
+        }
+
+        return ans;
+    }
+}
+/* 
+  .Traverse the left subtree recursively by calling the inorder traversal   function on the  left child of the current node.
+  .Visit the current node and output its value.
+  .Traverse the right subtree recursively by calling the inorder traversal function on the right child of the current node.
+  
+The reason we need to use a stack when performing the in-order traversal of a tree is that the recursive implementation can lead to a stack overflow error when the tree is deep, meaning it has many levels. In this case, the recursive calls to visit the left and right subtrees can accumulate and cause the program to run out of stack memory. Therefore, we need to use an iterative approach that doesn't rely on recursive calls to avoid this problem.
+
+The iterative implementation of the in-order traversal algorithm using a stack involves pushing all the nodes in the left subtree onto the stack until there are no more nodes. Then, we pop the top node from the stack and visit it. If the node has a right child, we push all the nodes in its right subtree onto the stack. We repeat this process until the stack is empty.
+*/ 
